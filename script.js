@@ -4,141 +4,9 @@
    =================================== */
 document.getElementById('year').textContent = new Date().getFullYear();
 
-/* ===================================
-   CV DOWNLOAD HANDLER
-   Downloads CV as PDF when button is clicked
-   =================================== */
-document.getElementById('downloadCV').addEventListener('click', function(e) {
-  e.preventDefault();  // Prevent default link behavior
-  
-  // CV content with all information
-  const cvContent = `CHEHATA IMENE
-Curriculum Vitae
-
-Master's Student in Big Data & Data Science
-Horizon School of Digital Technologies, Tunisia
-
-==================================
-CONTACT INFORMATION
-==================================
-Email: chehataimene9@gmail.com
-Phone: +216 55 497 105
-Location: Monastir, Tunisia
-
-==================================
-EDUCATION
-==================================
-
-2025 - Present
-Master's in Big Data & Data Science
-Horizon School of Digital Technologies, Tunisia
-
-2022 - 2025
-Bachelor's in Computer Systems Engineering
-ISITCOM Hammam Sousse
-Specialization: Embedded Systems & IoT
-
-2022
-Baccalaureate in Computer Science
-Teboulba High School, Monastir
-
-==================================
-PROFESSIONAL EXPERIENCE
-==================================
-
-2025
-Final Year Project Intern
-Nouvelair, Tunis
-• Designed and developed AI-based tool for flight schedule optimization
-• Optimized timetables based on cost, technical, and commercial constraints
-• Developed web interface for schedule simulation and validation
-
-2024
-Technical Intern
-Socoste TAV Information Services Co.
-Habib Bourguiba International Airport, Monastir
-• Introduction to airport IT infrastructure
-• Participated in IoT project using outdoor sensors for parking management
-• Switch configuration and integration into server system
-
-==================================
-TECHNICAL SKILLS
-==================================
-
-Programming Languages:
-Python, Java, C, C++, JavaScript, PHP, R, SQL
-
-Web Technologies:
-HTML5, CSS3, React, Node.js, Bootstrap, WordPress
-
-Database & Data Management:
-MySQL, MongoDB, PostgreSQL, phpMyAdmin, Data Analysis, Big Data
-
-Python Libraries & Frameworks:
-NumPy, Pandas, Scikit-learn, TensorFlow, Keras, Matplotlib
-
-AI & Machine Learning:
-Machine Learning, Deep Learning, Neural Networks, NLP, Computer Vision, Data Mining
-
-DevOps & Tools:
-Git, GitHub, Docker, Linux, VS Code, Jupyter
-
-IoT & Embedded Systems:
-Arduino, Raspberry Pi, IoT Systems, Embedded Systems, Sensors, MQTT
-
-Mobile & Other Technologies:
-Android, Mobile Development, REST API, Networking, Cloud Computing, Agile
-
-==================================
-LANGUAGES
-==================================
-• Arabic: Native
-• French: Fluent
-• English: B2 (Upper-Intermediate, IELTS 5.5)
-
-==================================
-CERTIFICATIONS
-==================================
-• Certificate of English Language – CEFR B2
-  Imperial English UK, University of Sousse (2025)
-• Training of Public Speaking & Self-Confidence (2022)
-
-==================================
-INTERESTS
-==================================
-• Reading
-• Technology & Innovation
-• Data Science Research
-• AI Development
-`;
-
-  // Create blob with PDF mime type
-  const blob = new Blob([cvContent], { type: 'application/pdf' });
-  
-  // Create temporary download link
-  const url = window.URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = 'Chehata_Imene_CV.pdf';  // Filename
-  
-  // Trigger download
-  document.body.appendChild(a);
-  a.click();
-  
-  // Cleanup
-  window.URL.revokeObjectURL(url);
-  document.body.removeChild(a);
-  
-  // Show success feedback
-  const btn = this;
-  const originalContent = btn.innerHTML;
-  btn.innerHTML = '<i class="fas fa-check"></i> Downloaded!';
-  
-  // Reset button after 2 seconds
-  setTimeout(() => {
-    btn.innerHTML = originalContent;
-  }, 2000);
-});
+/* CV download is now handled natively by the <a download> attribute
+   on the button in index.html — no JS needed, works reliably both
+   locally (file://) and once hosted (GitHub Pages, etc). */
 
 /* ===================================
    SMOOTH SCROLLING
@@ -165,7 +33,6 @@ document.querySelectorAll('a[href^="#"]').forEach(anchor => {
    =================================== */
 let lastScroll = 0;
 const nav = document.querySelector('.nav');
-
 window.addEventListener('scroll', () => {
   const currentScroll = window.pageYOffset;
   
@@ -191,7 +58,6 @@ function openModal(modalId) {
     document.body.style.overflow = 'hidden';  // Prevent background scroll
   }
 }
-
 // Close modal by ID
 function closeModal(modalId) {
   const modal = document.getElementById(modalId);
@@ -200,14 +66,12 @@ function closeModal(modalId) {
     document.body.style.overflow = 'auto';  // Restore scrolling
   }
 }
-
 // Close modal when clicking outside content
 window.addEventListener('click', (e) => {
   if (e.target.classList.contains('modal')) {
     closeModal(e.target.id);
   }
 });
-
 // Close modal with Escape key
 document.addEventListener('keydown', (e) => {
   if (e.key === 'Escape') {
@@ -260,7 +124,6 @@ const observerOptions = {
   threshold: 0.15,  // Trigger when 15% visible
   rootMargin: '0px 0px -80px 0px'  // Trigger slightly early
 };
-
 // Create observer
 const sectionObserver = new IntersectionObserver((entries) => {
   entries.forEach((entry, index) => {
@@ -272,7 +135,6 @@ const sectionObserver = new IntersectionObserver((entries) => {
     }
   });
 }, observerOptions);
-
 // Observe all sections
 document.querySelectorAll('section').forEach(section => {
   sectionObserver.observe(section);
@@ -284,15 +146,12 @@ document.querySelectorAll('section').forEach(section => {
    =================================== */
 const sections = document.querySelectorAll('section[id]');
 const navLinks = document.querySelectorAll('.nav-link');
-
 function updateActiveNav() {
   const scrollPosition = window.scrollY + 100;
-
   sections.forEach(section => {
     const sectionTop = section.offsetTop;
     const sectionHeight = section.offsetHeight;
     const sectionId = section.getAttribute('id');
-
     // Check if current scroll position is within this section
     if (scrollPosition >= sectionTop && scrollPosition < sectionTop + sectionHeight) {
       navLinks.forEach(link => {
@@ -305,7 +164,6 @@ function updateActiveNav() {
     }
   });
 }
-
 // Update on scroll
 window.addEventListener('scroll', updateActiveNav);
 updateActiveNav();  // Run once on load
@@ -330,9 +188,9 @@ window.addEventListener('scroll', () => {
    SKILL CARD HOVER
    Smooth hover animations
    =================================== */
-document.querySelectorAll('.skill-item').forEach(card => {
+document.querySelectorAll('.skill-card').forEach(card => {
   card.addEventListener('mouseenter', function() {
-    this.style.transform = 'translateY(-10px)';
+    this.style.transform = 'translateY(-8px)';
   });
   
   card.addEventListener('mouseleave', function() {
